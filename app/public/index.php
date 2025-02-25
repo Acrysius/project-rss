@@ -5,12 +5,14 @@
     <?php include 'src/head-include.html' ?>
     <?php include 'src/mysqli-insert.php' ?>
 </head>
-<body>
-    <a href="private/src.php">Click me to load a new page</a>
+<body class="container text-center">
+    <img class="img-fluid" src="src/images/wheel-of-luck.webp">
+    <div class="row">
     <h1>REGISTRACIJA EKIP IN DODELITEV PROJEKTA</h1>
     <p>Tukaj bo vpisana vaša skupina. Nato bo dodeljen projekt z opisom. Projekti se ne
         ponavljajo in vsaka skupina ima možnost 1 ponovitev žrebanja.
     </p>
+    </div>
     <form action="index.php" method="POST">
         <div>
             <label for="clan1">ČLAN 1 - <b>VODJA</b></label>
@@ -31,5 +33,8 @@
             <button type="submit" name="loterija">POTRDI VNOS IN IZBERI PROJEKT</button>
         </div>
     </form>
+    <?php if(isset($projectResult)){
+        include 'src/project-reroll.php';
+    }?>
 </body>
 </html>
