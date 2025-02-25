@@ -6,7 +6,7 @@
     <?php include 'src/mysqli-insert.php' ?>
 </head>
 <body class="container text-center">
-    <img class="img-fluid" src="src/images/wheel-of-luck.webp">
+    <img class="img-fluid" style="width:50rem" src="src/images/wheel-of-luck.webp">
     <div class="row">
     <h1>REGISTRACIJA EKIP IN DODELITEV PROJEKTA</h1>
     <p>Tukaj bo vpisana vaša skupina. Nato bo dodeljen projekt z opisom. Projekti se ne
@@ -14,27 +14,46 @@
     </p>
     </div>
     <form action="index.php" method="POST">
-        <div>
-            <label for="clan1">ČLAN 1 - <b>VODJA</b></label>
-            <input type="text" name="clan1" id="clan1" placeholder="ime vodje" required>
-            <input type="text" name="clan1p" id="clan1p" placeholder="priimek vodje" required>
+        <div class="row mb-3">
+            <label for="clan1" class="form-label">ČLAN 1 - <b>VODJA</b></label>
+            <div class="col-6">
+                <input type="text" name="clan1" id="clan1" placeholder="ime vodje" required class="form-control">
+            </div>
+            <div class="col-6">
+                <input type="text" name="clan1p" id="clan1p" placeholder="priimek vodje" required class="form-control">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="clan2" class="form-label">ČLAN 2</label>
+            <div class="col-6">
+                <input type="text" name="clan2" id="clan2" placeholder="ime 2" required class="form-control">
+            </div>
+            <div class="col-6">
+                <input type="text" name="clan2p" id="clan2p" placeholder="priimek 2" required class="form-control">
+            </div>
+        </div>
+        <div class="row mb3">
+            <label for="clan3" class="form-label">ČLAN 3 (če je)</label>
+            <div class="col-6">
+                <input type="text" name="clan3" id="clan3" placeholder="ime 3, če je član" class="form-control">
+            </div>
+            <div class="col-6">
+                <input type="text" name="clan3p" id="clan3p" placeholder="priimek 3, če je član" class="form-control">
+            </div>
         </div>
         <div>
-            <label for="clan2">ČLAN 2</label>
-            <input type="text" name="clan2" id="clan2" placeholder="ime 2" required>
-            <input type="text" name="clan2p" id="clan2p" placeholder="priimek 2" required>
-        </div>
-        <div>
-            <label for="clan3">ČLAN 3 (če je)</label>
-            <input type="text" name="clan3" id="clan3" placeholder="ime 3, če je član">
-            <input type="text" name="clan3p" id="clan3p" placeholder="priimek 3, če je član">
-        </div>
-        <div>
-            <button type="submit" name="loterija">POTRDI VNOS IN IZBERI PROJEKT</button>
+            <hr>
+            <button class="btn btn-primary" type="submit" name="loterija">POTRDI VNOS IN IZBERI PROJEKT</button>
         </div>
     </form>
     <?php if(isset($projectResult)){
-        include 'src/project-reroll.php';
+        echo "<div class='alert alert-primary'><h2>".$projectResult['pr']."</h2></div>";
+        if($rerollControl==true){
+            include 'src/project-reroll.php';
+        } else {
+            echo "<div class='row mb3'><h2>To je to.</h2></div>";
+        }
+        
     }?>
 </body>
 </html>

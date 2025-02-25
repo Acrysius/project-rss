@@ -1,7 +1,7 @@
 <form action="index.php" method="POST">
-    <div>
-        <label for="reroll-id">PONOVEN POSKUS?</label>
+    <div class="mb-3">
+        <label for="reroll-id" class="form-label">PONOVEN POSKUS?</label>
         <input name="reroll-id" type="hidden" value="<?php echo $projectResult['id'];?>">
-        <button type="submit" name="reroll">DA!</button>
+        <button class="btn btn-primary" type="submit" name="reroll">DA!</button>
     </div>
 </form>

@@ -11,7 +11,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
             $clan3=$_POST['clan3'];
             $clan3p=$_POST['clan3p'];
         }
-
+        $rerollControl=true;
         //Ta segment kode preveri za dostopnost projekta in nato izbere naključnega.
 
         $queryVsiProjekti = $conn -> prepare("SELECT TK_projekt FROM skupina");
@@ -47,7 +47,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
             }
             printf(sizeof($studentID));
             $assignProject = assignProject($resultProjekt);
-            print("/n".$assignProject);
+
             
             if (sizeof($studentID)==3) {
                 $projectInsert = "INSERT INTO skupina (TK_clan1, TK_clan2, TK_clan3, TK_projekt) VALUES ('$studentID[0]', '$studentID[1]', '$studentID[2]', '$assignProject');";
@@ -59,7 +59,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
             $queryProject = $conn -> prepare("SELECT ID_projekt as id, projekt.naziv as pr FROM projekt WHERE ID_projekt = '$assignProject';");
             $queryProject -> execute();
             $projectResult = $queryProject -> fetch(PDO::FETCH_ASSOC);
-            echo $projectResult['pr'];
+
         }
 
         $conn=null;
@@ -76,6 +76,12 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         $stmt = $conn -> prepare($updateStatement);
         $stmt->execute();
         echo $assignNewProject;
+
+        $queryProject = $conn -> prepare("SELECT ID_projekt as id, projekt.naziv as pr FROM projekt WHERE ID_projekt = '$assignNewProject';");
+        $queryProject -> execute();
+        $projectResult = $queryProject -> fetch(PDO::FETCH_ASSOC);
+        $rerollControl=false;
+        $conn=null;
     }
     
 
