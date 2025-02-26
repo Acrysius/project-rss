@@ -1,6 +1,6 @@
 <?php
 require 'mysqli-connect.php';
-
+$repeatStudent=false;
 if($_SERVER['REQUEST_METHOD']==='POST'){
     if(isset($_POST['loterija'])){
         $clan1=$_POST['clan1'];
@@ -17,10 +17,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         $queryVsiProjekti = $conn -> prepare("SELECT TK_projekt FROM skupina");
         $queryVsiProjekti -> execute();
         $resultProjekt = $queryVsiProjekti -> fetchAll();
-
-
-
-        
+                
         /*foreach(new TableRows(new RecursiveArrayIterator($queryVsiProjekti->fetchAll())) as $k=>$v){
 
         }*/
@@ -45,20 +42,47 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
                 $result = $queryClan3 -> fetch(PDO::FETCH_ASSOC);
                 array_push($studentID, $result['ID_student']);
             }
-            printf(sizeof($studentID));
-            $assignProject = assignProject($resultProjekt);
 
-            
-            if (sizeof($studentID)==3) {
-                $projectInsert = "INSERT INTO skupina (TK_clan1, TK_clan2, TK_clan3, TK_projekt) VALUES ('$studentID[0]', '$studentID[1]', '$studentID[2]', '$assignProject');";
-            } else {
-                $projectInsert = "INSERT INTO skupina (TK_clan1, TK_clan2, TK_projekt) VALUES ('$studentID[0]', '$studentID[1]', '$assignProject');";
+
+            $queryAllMembers=$conn->prepare("SELECT TK_clan1, TK_clan2, TK_clan3 FROM skupina;");
+            $queryAllMembers -> execute();
+            $queryAllMembersResult= $queryAllMembers ->fetchAll();
+
+            foreach($queryAllMembersResult as $v){
+                if($repeatStudent==false){
+                    foreach($studentID as $p){
+                        if($v['TK_clan1']==$p){
+                            $repeatStudent=true;
+                            break;
+                        }
+                        elseif($v['TK_clan2']==$p){
+                            $repeatStudent=true;
+                            break;
+                        }
+                        elseif($v['TK_clan3']==$p){
+                            $repeatStudent=true;
+                            break;
+                        }
+                    }
+                }
+                
             }
-            $conn->exec($projectInsert);
 
-            $queryProject = $conn -> prepare("SELECT ID_projekt as id, projekt.naziv as pr FROM projekt WHERE ID_projekt = '$assignProject';");
-            $queryProject -> execute();
-            $projectResult = $queryProject -> fetch(PDO::FETCH_ASSOC);
+            if ($repeatStudent!=true){
+                $assignProject = assignProject($resultProjekt);          
+                if (sizeof($studentID)==3) {
+                    $projectInsert = "INSERT INTO skupina (TK_clan1, TK_clan2, TK_clan3, TK_projekt) VALUES ('$studentID[0]', '$studentID[1]', '$studentID[2]', '$assignProject');";
+                } else {
+                    $projectInsert = "INSERT INTO skupina (TK_clan1, TK_clan2, TK_projekt) VALUES ('$studentID[0]', '$studentID[1]', '$assignProject');";
+                }
+                $conn->exec($projectInsert);
+
+                $queryProject = $conn -> prepare("SELECT ID_projekt as id, projekt.naziv as pr FROM projekt WHERE ID_projekt = '$assignProject';");
+                $queryProject -> execute();
+                $projectResult = $queryProject -> fetch(PDO::FETCH_ASSOC);
+            }
+            
+            
 
         }
 

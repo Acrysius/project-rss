@@ -6,7 +6,7 @@
     <?php include 'src/mysqli-insert.php' ?>
 </head>
 <body class="container text-center">
-    <img class="img-fluid" style="width:50rem" src="src/images/wheel-of-luck.webp">
+    <img class="img-fluid" style="width:35rem" src="src/images/wheel-of-luck_cropped.webp">
     <div class="row">
     <h1>REGISTRACIJA EKIP IN DODELITEV PROJEKTA</h1>
     <p>Tukaj bo vpisana vaša skupina. Nato bo dodeljen projekt z opisom. Projekti se ne
@@ -46,6 +46,11 @@
             <button class="btn btn-primary" type="submit" name="loterija">POTRDI VNOS IN IZBERI PROJEKT</button>
         </div>
     </form>
+    <?php 
+        if($repeatStudent==true){
+            echo "<div class='alert alert-danger'><h2>POZOR! En od študentov je že vpisan v skupino!</h2></div>";
+        }
+    ?>
     <?php if(isset($projectResult)){
         echo "<div class='alert alert-primary'><h2>".$projectResult['pr']."</h2></div>";
         if($rerollControl==true){
