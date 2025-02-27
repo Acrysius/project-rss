@@ -12,3 +12,6 @@ Sistem je povezan z MySQL 9.2.0 različico, ki je v tovrstnem načinu zelo stabi
 
 ### Zaključna beseda.
 Upam, da ste uživali ob branju tega readmeja kot sem jaz užival ob njegovem pisanju.
+
+### pripis zaključku
+Hi.
